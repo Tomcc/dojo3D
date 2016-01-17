@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="..\src\Body.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RayResult.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\World.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Material.cpp" />
+    <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="..\include\Dojo3D\Body.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\common_header.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\ContactMode.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\Material.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\PhysUtil.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\RayResult.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\World.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\WorldListener.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{8d9181b4-a9c6-4f3e-b2ab-ba7181e637ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{e277f3d6-08f2-4b96-a300-9930bf0d349e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

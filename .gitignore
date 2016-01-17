@@ -1,0 +1,11 @@
+VisualStudio/ipch
+VisualStudio/Release/*
+VisualStudio/Debug/*
+VisualStudio/Publish/*
+
+*.sdf
+*.opensdf
+*.suo
+
+lib/
+*.vcxproj.user
