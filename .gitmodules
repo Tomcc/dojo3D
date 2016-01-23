@@ -1,0 +1,3 @@
+[submodule "dojo"]
+	path = dojo
+	url = git@github.com:Tomcc/dojo.git
