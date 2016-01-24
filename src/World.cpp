@@ -1,6 +1,9 @@
 #include "World.h"
 
 #include "PhysUtil.h"
+#include "Body.h"
+
+using namespace Phys;
 
 float makeTimeStep(int stepsPerSecond) {
 	DEBUG_ASSERT(stepsPerSecond > 0, "Invalid number of steps per second");
@@ -37,6 +40,7 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 	thread = std::thread([=]() {
 		Dojo::Timer timer;
 		Job job;
+		simulationPaused = false;
 
 		while (running) {
 
@@ -50,8 +54,7 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 			}
 
 			if (!simulationPaused && timer.getElapsedTime() >= timeStep) {
-				timer.reset();
-				world->stepSimulation((btScalar)timer.getElapsedTime(), 10, timeStep);
+				world->stepSimulation((btScalar)timer.getAndReset(), 10, timeStep);
 
 				for (auto&& listener : listeners) {
 					listener->onPostSimulationStep();
@@ -69,4 +72,57 @@ Phys::World::~World() {
 	thread.join();
 	//ensure that the order of teardown is correct
 	world = {};
+}
+
+bool World::isWorkerThread() const {
+	return std::this_thread::get_id() == thread.get_id();
+}
+
+void World::asyncCommand(Command command, const Command& callback /*= Command()*/) const {
+	DEBUG_ASSERT(command, "Command can't be a NOP");
+
+	if (isWorkerThread()) {
+		command();
+
+		if (callback) {
+			callbacks->enqueue(callback);
+		}
+	}
+	else {
+		commands->enqueue(std::move(command), callback);
+	}
+}
+
+void World::asyncCallback(const Command& callback) const {
+	DEBUG_ASSERT(callback, "Command can't be a NOP");
+
+	if (isWorkerThread()) {
+		callbacks->enqueue(callback);
+	}
+	else {
+		callback();
+	}
+}
+
+void World::sync() const {
+	if (!isWorkerThread()) {
+		std::atomic<bool> done = false;
+		asyncCommand([&] {
+			done = true;
+		});
+
+		while (!done) {
+			std::this_thread::yield();
+		}
+	}
+}
+
+
+void Phys::World::addBody(Body& body) {
+	bodies.emplace(&body);
+
+	//now add the rigid body to the world asynchronously
+	asyncCommand([this, &body] {
+		world->addRigidBody(body.getBtBody());
+	});
 }

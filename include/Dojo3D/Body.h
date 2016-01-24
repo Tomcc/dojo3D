@@ -9,6 +9,11 @@ namespace Phys {
 	class BodyPart;
 	class Body;
 
+	enum class BodyType {
+		Dynamic,
+		Static
+	};
+
 	class CollisionListener {
 	public:
 		virtual void onCollision(Phys::Body& me, Phys::Body& other, float force, const Vector& point) {}
@@ -34,7 +39,7 @@ namespace Phys {
 
 		CollisionListener* collisionListener = nullptr;
 
-		Body(Dojo::Object& object, World& world, Group group, bool staticShape = false);
+		Body(Dojo::Object& object, World& world, Group group, BodyType type = BodyType::Dynamic);
 
 		virtual ~Body();
 
@@ -88,12 +93,12 @@ namespace Phys {
 			return group;
 		}
 
-		btRigidBody* getB2Body() const {
-			return body;
+		btRigidBody* getBtBody() {
+			return body.get();
 		}
 
 		bool isStatic() const {
-			return staticShape;
+			return bodyType == BodyType::Static;
 		}
 
 		void onSimulationPaused();
@@ -127,9 +132,9 @@ namespace Phys {
 		World& world;
 		bool pushable = true;
 
-		btRigidBody* body = nullptr;
+		Unique<btRigidBody> body;
 		Group group = Group::invalid();
-		bool staticShape = false;
+		BodyType bodyType;
 
 		btTransform worldTransform;
 

@@ -113,11 +113,11 @@ namespace Phys {
 		}
 
 	protected:
-		Unique<btDefaultCollisionConfiguration> collisionConfiguration;
-		Unique<btCollisionDispatcher> dispatcher;
-		Unique<btDbvtBroadphase> overlappingPairCache;
-		Unique<btSequentialImpulseConstraintSolver> solver;
-		Unique<btDiscreteDynamicsWorld> world;
+		Unique<btCollisionConfiguration> collisionConfiguration;
+		Unique<btDispatcher> dispatcher;
+		Unique<btBroadphaseInterface> overlappingPairCache;
+		Unique<btConstraintSolver> solver;
+		Unique<btDynamicsWorld> world;
 
 		Unique<Dojo::Pipe<Job>> commands;
 		Unique<Dojo::Pipe<Command>> callbacks;
