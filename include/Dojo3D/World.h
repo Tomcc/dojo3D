@@ -63,7 +63,7 @@ namespace Phys {
 		
 		const float timeStep;
 
-		World(const Vector& gravity, float timeStep, int velocityIterations, int positionIterations, int particleIterations);
+		World(const Vector& gravity);
 
 		virtual ~World();
 
