@@ -60,8 +60,10 @@ namespace Phys {
 
 		typedef std::unordered_set<Body*> BodyList;
 		typedef std::vector<btRigidBody*> RigidBodyList;
+
+		const float timeStep;
 		
-		World(const Vector& gravity);
+		World(const Vector& gravity, int stepsPerSecond);
 
 		virtual ~World();
 
@@ -115,7 +117,16 @@ namespace Phys {
 		Unique<btCollisionDispatcher> dispatcher;
 		Unique<btDbvtBroadphase> overlappingPairCache;
 		Unique<btSequentialImpulseConstraintSolver> solver;
-		Unique<btDiscreteDynamicsWorld> dynamicsWorld;
+		Unique<btDiscreteDynamicsWorld> world;
+
+		Unique<Dojo::Pipe<Job>> commands;
+		Unique<Dojo::Pipe<Command>> callbacks;
+		Unique<Dojo::Pipe<DeferredCollision>> deferredCollisions;
+		Unique<Dojo::Pipe<DeferredSensorCollision>> deferredSensorCollisions;
+
+		Dojo::SmallSet<Body*> bodies, deletedBodies;
+
+		Dojo::SmallSet<WorldListener*> listeners;
 
 		std::thread thread;
 
