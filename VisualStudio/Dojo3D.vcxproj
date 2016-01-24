@@ -129,7 +129,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../dojo/dependencies/include;C:\Users\Tommaso\SDK\bullet3\src;../dojo/include;../include/Dojo2D/ConvexDecomposition;../include/Dojo2D;../src;..\Box2D\liquidfun\Box2D</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../dojo/dependencies/include;C:\Users\Tommaso\SDK\bullet3\src;../dojo/include;../include/Dojo3D;../src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -171,7 +171,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../dojo/dependencies/include;C:\Users\Tommaso\SDK\bullet3\src;../dojo/include;../include/Dojo2D/ConvexDecomposition;../include/Dojo2D;../src;..\Box2D\liquidfun\Box2D</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../dojo/dependencies/include;C:\Users\Tommaso\SDK\bullet3\src;../dojo/include;../include/Dojo3D;../src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;PUBLISH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
