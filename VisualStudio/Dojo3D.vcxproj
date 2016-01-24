@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Dojo3D\Body.h" />
+    <ClInclude Include="..\include\Dojo3D\BodyPart.h" />
     <ClInclude Include="..\include\Dojo3D\common_header.h" />
     <ClInclude Include="..\include\Dojo3D\ContactMode.h" />
     <ClInclude Include="..\include\Dojo3D\Material.h" />
@@ -24,8 +25,10 @@
     <ClInclude Include="..\include\Dojo3D\World.h" />
     <ClInclude Include="..\include\Dojo3D\WorldListener.h" />
     <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="BodyPart.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\include\Dojo3D\BodyPart.cpp" />
     <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp" />
     <ClCompile Include="..\src\Body.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
@@ -116,8 +119,8 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Dojo.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dojo.lib;LinearMath_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>
@@ -158,8 +161,8 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Dojo.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dojo.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>
@@ -199,8 +202,8 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Dojo.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dojo.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>

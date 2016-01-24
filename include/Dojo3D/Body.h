@@ -21,7 +21,7 @@ namespace Phys {
 
 		CollisionListener* collisionListener = nullptr;
 
-		Body(Dojo::Object& object, World& world, Group group, bool staticShape = false, bool inactive = false);
+		Body(Dojo::Object& object, World& world, Group group, bool staticShape = false);
 
 		virtual ~Body();
 

@@ -15,6 +15,7 @@
     <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\Dojo3D\BodyPart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -42,6 +43,10 @@
     <ClInclude Include="..\include\Dojo3D\WorldListener.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="BodyPart.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\BodyPart.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
