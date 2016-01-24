@@ -15,8 +15,21 @@ namespace Phys {
 		virtual void onSensorCollision(Body& other, btRigidBody& sensor) {};
 	};
 
-	class Body : public Dojo::Component	{
+	class alignas(16) Body :
+		public Dojo::Component,
+		public btMotionState {
+
+	protected:
+		
 	public:
+		void* operator new(size_t i) {
+			return _mm_malloc(i, alignof(Body));
+		}
+
+		void operator delete(void* p) {
+			_mm_free(p);
+		}
+
 		static const int ID = 1;
 
 		CollisionListener* collisionListener = nullptr;
@@ -112,8 +125,14 @@ namespace Phys {
 		Group group = Group::invalid();
 		bool staticShape = false;
 
+		btTransform worldTransform;
+
 		Dojo::SmallSet<Unique<BodyPart>> parts;
 
 		void _waitForBody() const;
+
+		virtual void getWorldTransform(btTransform& worldTrans) const override;
+
+		virtual void setWorldTransform(const btTransform& worldTrans) override;
 	};
 }

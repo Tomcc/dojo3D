@@ -1,6 +1,7 @@
 #include "Body.h"
 
 #include "BodyPart.h"
+#include "PhysUtil.h"
 
 using namespace Phys;
 
@@ -31,4 +32,18 @@ BodyPart& Body::addBoxShape(const Material& material, const Vector& dimensions, 
 	parts.emplace(std::move(part));
 
 	return ref;
+}
+
+void Phys::Body::getWorldTransform(btTransform& worldTrans) const {
+	worldTrans = worldTransform;
+}
+
+void Phys::Body::setWorldTransform(const btTransform& worldTrans) {
+	//NOTE: this method is only called when the object has moved
+
+	worldTransform = worldTrans;
+
+	//update the graphics too (todo: interpolate?)
+	self.position = asVector(worldTrans.getOrigin());
+ 	self.setRotation(asQuaternion(worldTrans.getRotation()));
 }
