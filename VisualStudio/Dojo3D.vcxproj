@@ -25,7 +25,6 @@
     <ClInclude Include="..\include\Dojo3D\World.h" />
     <ClInclude Include="..\include\Dojo3D\WorldListener.h" />
     <ClInclude Include="..\src\stdafx.h" />
-    <ClInclude Include="BodyPart.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\Dojo3D\BodyPart.cpp" />

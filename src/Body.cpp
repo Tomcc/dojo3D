@@ -27,18 +27,32 @@ void Body::destroyPhysics() {
 }
 
 BodyPart& Body::addBoxShape(const Material& material, const Vector& dimensions, const Vector& center /*= Vector::Zero*/, bool sensor /*= false*/) {
-	auto part = make_unique<BodyPart>();
+	DEBUG_ASSERT(!isInitialized(), "Cannot add a shape when the object is active");
+
+	DEBUG_ASSERT(center == Vector::Zero, "Offset not yet supported");
+
+	auto shape = make_unique<btBoxShape>( asBtVector( dimensions * 0.5f ) );
+
+	auto part = make_unique<BodyPart>(*this, material, std::move(shape));
 	auto& ref = *part;
 	parts.emplace(std::move(part));
 
 	return ref;
 }
 
-void Phys::Body::getWorldTransform(btTransform& worldTrans) const {
+void Body::onAttach() {
+	DEBUG_ASSERT(parts.size() > 0, "At least one shape is needed to add a physics body");
+	DEBUG_ASSERT(parts.size() <= 1, "Multishape not yet supported");
+
+	//initialize and add the body
+	worldTransform = btTransform{ asBtQuaternion(self.getRotation()), asBtVector(self.position) };
+}
+
+void Body::getWorldTransform(btTransform& worldTrans) const {
 	worldTrans = worldTransform;
 }
 
-void Phys::Body::setWorldTransform(const btTransform& worldTrans) {
+void Body::setWorldTransform(const btTransform& worldTrans) {
 	//NOTE: this method is only called when the object has moved
 
 	worldTransform = worldTrans;

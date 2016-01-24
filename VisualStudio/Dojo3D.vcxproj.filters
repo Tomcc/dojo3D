@@ -11,11 +11,15 @@
     <ClCompile Include="..\src\World.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\Dojo3D\BodyPart.cpp" />
+    <ClCompile Include="..\include\Dojo3D\BodyPart.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Material.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -43,10 +47,9 @@
     <ClInclude Include="..\include\Dojo3D\WorldListener.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="BodyPart.h">
+    <ClInclude Include="..\include\Dojo3D\BodyPart.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Dojo3D\BodyPart.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

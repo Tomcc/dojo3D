@@ -117,6 +117,12 @@ namespace Phys {
 
 		bool isPushable() const;
 
+		bool isInitialized() const {
+			return body != nullptr;
+		}
+
+		virtual void onAttach() override;
+
 	protected:
 		World& world;
 		bool pushable = true;
