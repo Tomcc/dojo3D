@@ -20,9 +20,8 @@ namespace Phys {
 		virtual void onSensorCollision(Body& other, btRigidBody& sensor) {};
 	};
 
-	class alignas(16) Body :
-		public Dojo::Component,
-		public btMotionState {
+	class Body :
+		public Dojo::Component {
 
 	protected:
 		
@@ -128,6 +127,8 @@ namespace Phys {
 
 		virtual void onAttach() override;
 
+		void _postSimulation();
+
 	protected:
 		World& world;
 		bool pushable = true;
@@ -137,14 +138,8 @@ namespace Phys {
 		BodyType bodyType;
 		const Phys::Material& material;
 
-		btTransform worldTransform;
-
 		Dojo::SmallSet<Unique<BodyPart>> parts;
 
 		void _waitForBody() const;
-
-		virtual void getWorldTransform(btTransform& worldTrans) const override;
-
-		virtual void setWorldTransform(const btTransform& worldTrans) override;
 	};
 }

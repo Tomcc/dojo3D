@@ -21,8 +21,13 @@ Body::~Body() {
 }
 
 float Body::getMass() const {
-	//TODO
-	return 0; 
+	float mass = 0;
+	if (bodyType == BodyType::Dynamic) {
+		for (auto&& part : parts) {
+			mass += part->volume * material.density;
+		}
+	}
+	return mass;
 }
 
 void Body::destroyPhysics() {
@@ -49,24 +54,22 @@ void Body::onAttach() {
 	DEBUG_ASSERT(parts.size() > 0, "At least one shape is needed to add a physics body");
 	DEBUG_ASSERT(parts.size() <= 1, "Multishape not yet supported");
 
-	//initialize the transform with the user-set Object transform
-	worldTransform = btTransform{ asBtQuaternion(self.getRotation()), asBtVector(self.position) };
-
 	//TODO compose compound shape if there are multiple parts
 	auto& parentShape = parts[0]->getBtShape();
 
 	//find mass 
-	float mass = 0;
 	btVector3 inertia = btVector3(0, 0, 0);
-	if (bodyType == BodyType::Dynamic) { //0 mass means static
-		for (auto&& part : parts) {
-			mass += part->volume * material.density;
-		}
+	float mass = getMass();
+	if (bodyType == BodyType::Dynamic) {
 		parentShape.calculateLocalInertia(mass, inertia);
 	}
 
-	auto desc = btRigidBody::btRigidBodyConstructionInfo(mass, this, &parentShape, inertia);
-	desc.m_rollingFriction = desc.m_friction = material.friction;
+	//setup the object
+	auto desc = btRigidBody::btRigidBodyConstructionInfo(mass, nullptr, &parentShape, inertia);
+	
+	//initialize the transform with the user-set Object transform
+	desc.m_startWorldTransform = btTransform{ asBtQuaternion(self.getRotation()), asBtVector(self.position) };
+	desc.m_friction = material.friction;
 	desc.m_restitution = material.restitution;
 
 	body = make_unique<btRigidBody>(desc);
@@ -75,16 +78,9 @@ void Body::onAttach() {
 	world.addBody(*this);
 }
 
-void Body::getWorldTransform(btTransform& worldTrans) const {
-	worldTrans = worldTransform;
-}
-
-void Body::setWorldTransform(const btTransform& worldTrans) {
-	//NOTE: this method is only called when the object has moved
-
-	worldTransform = worldTrans;
-
+void Body::_postSimulation() {
 	//update the graphics too (todo: interpolate?)
+	auto& worldTrans = body->getWorldTransform();
 	self.position = asVector(worldTrans.getOrigin());
- 	self.setRotation(asQuaternion(worldTrans.getRotation()));
+	self.setRotation(asQuaternion(worldTrans.getRotation()));
 }

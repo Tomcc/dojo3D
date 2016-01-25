@@ -10,8 +10,10 @@ float makeTimeStep(int stepsPerSecond) {
 	return 1.f / stepsPerSecond;
 }
 
-Phys::World::World(const Vector& gravity, int stepsPerSecond) :
+Phys::World::World(const Vector& gravity, int stepsPerSecond, int collisionIterations) :
 timeStep( makeTimeStep(stepsPerSecond) ) {
+	DEBUG_ASSERT(collisionIterations > 0, "Invalid iterations");
+
 	/// collision configuration contains default setup for memory , collision setup . Advanced users can create their own configuration .
 	collisionConfiguration = make_unique<btDefaultCollisionConfiguration>();
 	/// use the default collision dispatcher . For parallel processing you can use a diffent dispatcher(see Extras / BulletMultiThreaded)
@@ -28,7 +30,7 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 		solver.get(),
 		collisionConfiguration.get()
 	);
-	
+	world->getSolverInfo().m_numIterations = collisionIterations;
 	world->setGravity(asBtVector(gravity));
 
 	//inter-thread communication
@@ -53,15 +55,12 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 				}
 			}
 
-			if (!simulationPaused && timer.getElapsedTime() >= timeStep) {
-				world->stepSimulation((btScalar)timer.getAndReset(), 10, timeStep);
+			world->stepSimulation((btScalar)timer.getAndReset(), 10, timeStep);
 
-				for (auto&& listener : listeners) {
-					listener->onPostSimulationStep();
+			for (auto& body : bodies) {
+				if (body->getBtBody()->getActivationState() == ACTIVE_TAG) {
+					body->_postSimulation();
 				}
-			}
-			else {
-				std::this_thread::yield();
 			}
 		}
 	});
