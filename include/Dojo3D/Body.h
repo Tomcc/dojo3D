@@ -39,15 +39,15 @@ namespace Phys {
 
 		CollisionListener* collisionListener = nullptr;
 
-		Body(Dojo::Object& object, World& world, Group group, BodyType type = BodyType::Dynamic);
+		Body(Dojo::Object& object, World& world, const Material& material, Group group, BodyType type = BodyType::Dynamic);
 
 		virtual ~Body();
 
-		BodyPart& addPolyShape(const Material& material, const btVector3* points, int count, bool sensor = false);
-		BodyPart& addPolyShape(const Material& material, const std::vector<btVector3>& points, bool sensor = false);
-		BodyPart& addBoxShape(const Material& material, const Vector& dimensions, const Vector& center = Vector::Zero, bool sensor = false);
-		BodyPart& addCircleShape(const Material& material, float radius, const Vector& center = Vector::Zero, bool sensor = false);
-		BodyPart& addCapsuleShape(const Material& material, const Vector& dimensions, const Vector& center = Vector::Zero, bool sensor = false);
+		BodyPart& addPolyShape(const btVector3* points, int count, bool sensor = false);
+		BodyPart& addPolyShape(const std::vector<btVector3>& points, bool sensor = false);
+		BodyPart& addBoxShape(const Vector& dimensions, const Vector& center = Vector::Zero, bool sensor = false);
+		BodyPart& addCircleShape(float radius, const Vector& center = Vector::Zero, bool sensor = false);
+		BodyPart& addCapsuleShape(const Vector& dimensions, const Vector& center = Vector::Zero, bool sensor = false);
 
 		void removeShape(BodyPart& part);
 
@@ -135,6 +135,7 @@ namespace Phys {
 		Unique<btRigidBody> body;
 		Group group = Group::invalid();
 		BodyType bodyType;
+		const Phys::Material& material;
 
 		btTransform worldTransform;
 

@@ -8,17 +8,14 @@ namespace Phys {
 	public:
 		const float volume;
 
-		BodyPart(Body& parent, const Phys::Material& material, Unique<btCollisionShape> shape, float volume);
+		BodyPart(Body& parent, Unique<btCollisionShape> shape, float volume);
 
 		btCollisionShape& getBtShape() {
 			return *shape;
 		}
 
-		float getMass() const;
-
 	protected:
 		Body& parent;
-		const Phys::Material& material;
 		Unique<btCollisionShape> shape;
 	private:
 	};

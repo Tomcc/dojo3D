@@ -3,14 +3,16 @@
 #include "BodyPart.h"
 #include "PhysUtil.h"
 #include "World.h"
+#include "Material.h"
 
 using namespace Phys;
 
-Body::Body(Dojo::Object& object, World& world, Group group, BodyType type /*= false*/) :
+Body::Body(Dojo::Object& object, World& world, const Material& material, Group group, BodyType type /*= false*/) :
 Component(object),
 world(world),
 group(group),
-bodyType(type) {
+bodyType(type),
+material(material) {
 
 }
 
@@ -27,7 +29,7 @@ void Body::destroyPhysics() {
 
 }
 
-BodyPart& Body::addBoxShape(const Material& material, const Vector& dimensions, const Vector& center /*= Vector::Zero*/, bool sensor /*= false*/) {
+BodyPart& Body::addBoxShape(const Vector& dimensions, const Vector& center /*= Vector::Zero*/, bool sensor /*= false*/) {
 	DEBUG_ASSERT(!isInitialized(), "Cannot add a shape when the object is active");
 
 	DEBUG_ASSERT(center == Vector::Zero, "Offset not yet supported");
@@ -36,7 +38,7 @@ BodyPart& Body::addBoxShape(const Material& material, const Vector& dimensions, 
 
 	auto shape = make_unique<btBoxShape>( asBtVector( dimensions * 0.5f ) );
 
-	auto part = make_unique<BodyPart>(*this, material, std::move(shape), volume);
+	auto part = make_unique<BodyPart>(*this, std::move(shape), volume);
 	auto& ref = *part;
 	parts.emplace(std::move(part));
 
@@ -58,12 +60,15 @@ void Body::onAttach() {
 	btVector3 inertia = btVector3(0, 0, 0);
 	if (bodyType == BodyType::Dynamic) { //0 mass means static
 		for (auto&& part : parts) {
-			mass += part->getMass();
+			mass += part->volume * material.density;
 		}
 		parentShape.calculateLocalInertia(mass, inertia);
 	}
 
 	auto desc = btRigidBody::btRigidBodyConstructionInfo(mass, this, &parentShape, inertia);
+	desc.m_rollingFriction = desc.m_friction = material.friction;
+	desc.m_restitution = material.restitution;
+
 	body = make_unique<btRigidBody>(desc);
 
 	//add the body to the world
