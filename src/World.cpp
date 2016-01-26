@@ -10,7 +10,7 @@ float makeTimeStep(int stepsPerSecond) {
 	return 1.f / stepsPerSecond;
 }
 
-Phys::World::World(const Vector& gravity, int stepsPerSecond, int collisionIterations) :
+World::World(const Vector& gravity, int stepsPerSecond, int collisionIterations) :
 timeStep( makeTimeStep(stepsPerSecond) ) {
 	DEBUG_ASSERT(collisionIterations > 0, "Invalid iterations");
 
@@ -66,7 +66,7 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 	});
 }
 
-Phys::World::~World() {
+World::~World() {
 	running = false;
 	thread.join();
 	//ensure that the order of teardown is correct
@@ -117,11 +117,6 @@ void World::sync() const {
 }
 
 
-void Phys::World::addBody(Body& body) {
+void World::registerBody(Body& body) {
 	bodies.emplace(&body);
-
-	//now add the rigid body to the world asynchronously
-	asyncCommand([this, &body] {
-		world->addRigidBody(body.getBtBody());
-	});
 }

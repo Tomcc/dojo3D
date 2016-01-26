@@ -8,6 +8,7 @@ namespace Phys {
 	class World;
 	class BodyPart;
 	class Body;
+	class Wheel;
 
 	enum class BodyType {
 		Dynamic,
@@ -46,12 +47,16 @@ namespace Phys {
 		BodyPart& addConvexHullShape(const std::vector<Vector>& points, const Vector& center = Vector::Zero, const Quaternion& rotation = {});
 		BodyPart& addSphereShape(float radius, const Vector& center = Vector::Zero);
 
-		void removeShape(BodyPart& part);
+		Wheel& addWheel(
+			const Vector& connectionPoint,
+			const Vector& direction,
+			const Vector& axle,
+			float radius,
+			float suspensionRestLength,
+			const btRaycastVehicle::btVehicleTuning& suspensionTuning = {});
 
 		///Removes physical behaviors from this object
 		void destroyPhysics();
-
-		void setFixedRotation(bool enable);
 
 		void applyForce(const Vector& force);
 		void applyForceAtWorldPoint(const Vector& force, const Vector& localPoint);
@@ -92,6 +97,10 @@ namespace Phys {
 
 		btRigidBody* getBtBody() {
 			return body.get();
+		}
+
+		btRaycastVehicle* getBtVehicle() {
+			return vehicle.get();
 		}
 
 		bool isStatic() const {
@@ -137,6 +146,10 @@ namespace Phys {
 		const Phys::Material& material;
 
 		Dojo::SmallSet<Unique<BodyPart>> parts;
+
+		Unique<btRaycastVehicle> vehicle;
+		Unique<btVehicleRaycaster> vehicleRaycaster;
+		Dojo::SmallSet<Unique<Wheel>> wheels;
 
 		void _waitForBody() const;
 		BodyPart& _addShape(Unique<btCollisionShape> shape, float volume, const Vector& offset, const Quaternion& rotation);

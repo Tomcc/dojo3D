@@ -22,6 +22,7 @@
     <ClInclude Include="..\include\Dojo3D\Material.h" />
     <ClInclude Include="..\include\Dojo3D\PhysUtil.h" />
     <ClInclude Include="..\include\Dojo3D\RayResult.h" />
+    <ClInclude Include="..\include\Dojo3D\Wheel.h" />
     <ClInclude Include="..\include\Dojo3D\World.h" />
     <ClInclude Include="..\include\Dojo3D\WorldListener.h" />
     <ClInclude Include="..\src\stdafx.h" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClCompile Include="..\include\Dojo3D\BodyPart.cpp" />
     <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp" />
+    <ClCompile Include="..\include\Dojo3D\Wheel.cpp" />
     <ClCompile Include="..\src\Body.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\src\RayResult.cpp" />

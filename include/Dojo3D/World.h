@@ -97,12 +97,16 @@ namespace Phys {
 		void asyncCallback(const Command& callback) const;
 		bool isWorkerThread() const;
 
-		void addBody(Body& body);
+		void registerBody(Body& body);
 		void removeBody(Body& body);
 
 		void pause();
 
 		void resume();
+
+		btDynamicsWorld& getBtWorld() {
+			return *world;
+		}
 
 		bool isPaused() const {
 			return simulationPaused;

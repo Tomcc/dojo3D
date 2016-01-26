@@ -4,6 +4,7 @@
 #include "PhysUtil.h"
 #include "World.h"
 #include "Material.h"
+#include "Wheel.h"
 
 using namespace Phys;
 
@@ -31,7 +32,7 @@ float Body::getMass() const {
 }
 
 void Body::destroyPhysics() {
-
+	DEBUG_TODO;
 }
 
 BodyPart& Body::_addShape(Unique<btCollisionShape> shape, float volume, const Vector& offset, const Quaternion& rotation) {
@@ -79,28 +80,45 @@ void Body::onAttach() {
 	DEBUG_ASSERT(parts.size() > 0, "At least one shape is needed to add a physics body");
 	DEBUG_ASSERT(parts.size() <= 1, "Multishape not yet supported");
 
-	//TODO compose compound shape if there are multiple parts
-	auto& parentShape = parts[0]->getBtShape();
+	world.asyncCommand([this] {
+		//TODO compose compound shape if there are multiple parts
+		auto& parentShape = parts[0]->getBtShape();
 
-	//find mass 
-	btVector3 inertia = btVector3(0, 0, 0);
-	float mass = getMass();
-	if (bodyType == BodyType::Dynamic) {
-		parentShape.calculateLocalInertia(mass, inertia);
-	}
+		//find mass 
+		btVector3 inertia = btVector3(0, 0, 0);
+		float mass = getMass();
+		if (bodyType == BodyType::Dynamic) {
+			parentShape.calculateLocalInertia(mass, inertia);
+		}
 
-	//setup the object
-	auto desc = btRigidBody::btRigidBodyConstructionInfo(mass, nullptr, &parentShape, inertia);
-	
-	//initialize the transform with the user-set Object transform
-	desc.m_startWorldTransform = btTransform{ asBtQuaternion(self.getRotation()), asBtVector(self.position) };
-	desc.m_friction = material.friction;
-	desc.m_restitution = material.restitution;
+		//setup the object
+		auto desc = btRigidBody::btRigidBodyConstructionInfo(mass, nullptr, &parentShape, inertia);
 
-	body = make_unique<btRigidBody>(desc);
+		//initialize the transform with the user-set Object transform
+		desc.m_startWorldTransform = btTransform{ asBtQuaternion(self.getRotation()), asBtVector(self.position) };
+		desc.m_friction = material.friction;
+		desc.m_restitution = material.restitution;
 
-	//add the body to the world
-	world.addBody(*this);
+		body = make_unique<btRigidBody>(desc);
+
+		//configure the wheels
+		if (wheels.size() > 0) {
+			vehicleRaycaster = make_unique<btDefaultVehicleRaycaster>(&world.getBtWorld());
+
+			btRaycastVehicle::btVehicleTuning tuning; //TODO what's this even used for, each wheel has it already
+			vehicle = make_unique<btRaycastVehicle>(tuning, getBtBody(), vehicleRaycaster.get());
+
+			for (auto&& wheel : wheels) {
+				wheel->_init();
+			}
+		}
+
+		//TODO group & mask
+		world.getBtWorld().addRigidBody(body.get());
+
+		//add the body to the world
+		world.registerBody(*this);
+	});
 }
 
 void Body::_postSimulation() {
@@ -108,4 +126,25 @@ void Body::_postSimulation() {
 	auto& worldTrans = body->getWorldTransform();
 	self.position = asVector(worldTrans.getOrigin());
 	self.setRotation(asQuaternion(worldTrans.getRotation()));
+
+	for(auto i : range(wheels.size())) {
+		vehicle->updateWheelTransform(i, true);
+	}
+}
+
+Wheel& Body::addWheel( const Vector& connectionPoint, const Vector& direction, const Vector& axle, float radius, float suspensionRestLength, const btRaycastVehicle::btVehicleTuning& suspensionTuning ) {
+	DEBUG_ASSERT(!isInitialized(), "Cannot add a wheel to a vehicle that is initialized");
+	
+	auto wheel = make_unique<Wheel>(
+		*this,
+		connectionPoint,
+		direction,
+		axle,
+		radius,
+		suspensionRestLength,
+		suspensionTuning);
+
+	auto& wref = *wheel;
+	wheels.emplace(std::move(wheel));
+	return wref;
 }
