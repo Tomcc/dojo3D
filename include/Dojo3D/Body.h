@@ -42,11 +42,9 @@ namespace Phys {
 
 		virtual ~Body();
 
-		BodyPart& addPolyShape(const btVector3* points, int count, bool sensor = false);
-		BodyPart& addPolyShape(const std::vector<btVector3>& points, bool sensor = false);
-		BodyPart& addBoxShape(const Vector& dimensions, const Vector& center = Vector::Zero, bool sensor = false);
-		BodyPart& addCircleShape(float radius, const Vector& center = Vector::Zero, bool sensor = false);
-		BodyPart& addCapsuleShape(const Vector& dimensions, const Vector& center = Vector::Zero, bool sensor = false);
+		BodyPart& addBoxShape(const Vector& dimensions, const Vector& center = Vector::Zero, const Quaternion& rotation = {});
+		BodyPart& addConvexHullShape(const std::vector<Vector>& points, const Vector& center = Vector::Zero, const Quaternion& rotation = {});
+		BodyPart& addSphereShape(float radius, const Vector& center = Vector::Zero);
 
 		void removeShape(BodyPart& part);
 
@@ -141,5 +139,6 @@ namespace Phys {
 		Dojo::SmallSet<Unique<BodyPart>> parts;
 
 		void _waitForBody() const;
+		BodyPart& _addShape(Unique<btCollisionShape> shape, float volume, const Vector& offset, const Quaternion& rotation);
 	};
 }
