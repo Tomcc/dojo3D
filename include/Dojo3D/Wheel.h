@@ -11,6 +11,8 @@ namespace Phys {
 		const btRaycastVehicle::btVehicleTuning suspensionTuning;
 
 	public:
+		Dojo::Object* childObject = nullptr;
+
 		Wheel(
 			Body& parent,
 			const Vector& connectionPoint,

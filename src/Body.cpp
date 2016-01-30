@@ -129,6 +129,12 @@ void Body::_postSimulation() {
 
 	for(auto i : range(wheels.size())) {
 		vehicle->updateWheelTransform(i, true);
+		auto& wheel = wheels[i];
+		if (wheel->childObject) {
+			auto& trans = vehicle->getWheelInfo(i).m_worldTransform;
+			wheel->childObject->position = asVector(trans.getOrigin());
+			wheel->childObject->setRotation(asQuaternion(trans.getRotation()));
+		}
 	}
 }
 
