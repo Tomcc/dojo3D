@@ -87,6 +87,8 @@ namespace Phys {
 
 		void setTransform(const Vector& position, Radians angle);
 
+		void setSleepingEnabled(bool enabled);
+
 		void setPushable(bool p) {
 			pushable = p;
 		}

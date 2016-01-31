@@ -101,20 +101,23 @@ void Body::onAttach() {
 
 		body = make_unique<btRigidBody>(desc);
 
+		//TODO group & mask
+		world.getBtWorld().addRigidBody(body.get());
+
 		//configure the wheels
 		if (wheels.size() > 0) {
 			vehicleRaycaster = make_unique<btDefaultVehicleRaycaster>(&world.getBtWorld());
 
 			btRaycastVehicle::btVehicleTuning tuning; //TODO what's this even used for, each wheel has it already
 			vehicle = make_unique<btRaycastVehicle>(tuning, getBtBody(), vehicleRaycaster.get());
+			world.getBtWorld().addVehicle(vehicle.get());
+
+			vehicle->setCoordinateSystem(0, 1, 2);
 
 			for (auto&& wheel : wheels) {
 				wheel->_init();
 			}
 		}
-
-		//TODO group & mask
-		world.getBtWorld().addRigidBody(body.get());
 
 		//add the body to the world
 		world.registerBody(*this);
@@ -153,4 +156,10 @@ Wheel& Body::addWheel( const Vector& connectionPoint, const Vector& direction, c
 	auto& wref = *wheel;
 	wheels.emplace(std::move(wheel));
 	return wref;
+}
+
+void Body::setSleepingEnabled(bool enabled) {
+	world.asyncCommand([this, enabled] {
+		body->setActivationState(enabled ? ACTIVE_TAG : DISABLE_DEACTIVATION);
+	});
 }

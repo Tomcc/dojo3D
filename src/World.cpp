@@ -58,7 +58,8 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 			world->stepSimulation((btScalar)timer.getAndReset(), 10, timeStep);
 
 			for (auto& body : bodies) {
-				if (body->getBtBody()->getActivationState() == ACTIVE_TAG) {
+				auto state = body->getBtBody()->getActivationState();
+				if (state != ISLAND_SLEEPING && state != DISABLE_SIMULATION) {
 					body->_postSimulation();
 				}
 			}
