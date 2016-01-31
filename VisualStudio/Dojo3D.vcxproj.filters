@@ -20,7 +20,9 @@
     <ClCompile Include="..\src\Material.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\Dojo3D\Wheel.cpp" />
+    <ClCompile Include="..\include\Dojo3D\Wheel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -51,7 +53,9 @@
     <ClInclude Include="..\include\Dojo3D\BodyPart.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Dojo3D\Wheel.h" />
+    <ClInclude Include="..\include\Dojo3D\Wheel.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
