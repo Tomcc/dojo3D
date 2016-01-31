@@ -41,7 +41,7 @@ BodyPart& Body::_addShape(Unique<btCollisionShape> shape, float volume, const Ve
 	DEBUG_ASSERT(offset == Vector::Zero, "Offset not yet supported");
 	DEBUG_ASSERT(rotation == Quaternion(), "Rotation not yet supported");
 
-	auto part = make_unique<BodyPart>(*this, std::move(shape), volume);
+	auto part = make_unique<BodyPart>(self, std::move(shape), volume);
 	auto& ref = *part;
 	parts.emplace(std::move(part));
 
@@ -95,7 +95,7 @@ void Body::onAttach() {
 		auto desc = btRigidBody::btRigidBodyConstructionInfo(mass, nullptr, &parentShape, inertia);
 
 		//initialize the transform with the user-set Object transform
-		desc.m_startWorldTransform = btTransform{ asBtQuaternion(self.getRotation()), asBtVector(self.position) };
+		desc.m_startWorldTransform = btTransform{ asBtQuaternion(object.getRotation()), asBtVector(object.position) };
 		desc.m_friction = material.friction;
 		desc.m_restitution = material.restitution;
 
@@ -120,15 +120,15 @@ void Body::onAttach() {
 		}
 
 		//add the body to the world
-		world.registerBody(*this);
+		world.registerBody(self);
 	});
 }
 
 void Body::_postSimulation() {
 	//update the graphics too (todo: interpolate?)
 	auto& worldTrans = body->getWorldTransform();
-	self.position = asVector(worldTrans.getOrigin());
-	self.setRotation(asQuaternion(worldTrans.getRotation()));
+	object.position = asVector(worldTrans.getOrigin());
+	object.setRotation(asQuaternion(worldTrans.getRotation()));
 
 	for(auto i : range(wheels.size())) {
 		vehicle->updateWheelTransform(i, true);
@@ -145,7 +145,7 @@ Wheel& Body::addWheel( const Vector& connectionPoint, const Vector& direction, c
 	DEBUG_ASSERT(!isInitialized(), "Cannot add a wheel to a vehicle that is initialized");
 	
 	auto wheel = make_unique<Wheel>(
-		*this,
+		self,
 		connectionPoint,
 		direction,
 		axle,

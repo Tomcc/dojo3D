@@ -14,7 +14,7 @@ namespace Phys {
 
 		optional_ref<Dojo::SoundSet> impactHard, impactSoft;
 
-		Material(const utf::string& name, const Dojo::Table& desc = Dojo::Table::Empty, const_optional_ref<Dojo::ResourceGroup> group = {});
+		Material(const utf::string& name, const Dojo::Table& desc = Dojo::Table::Empty, optional_ref<const Dojo::ResourceGroup> group = {});
 	};
 }
 
