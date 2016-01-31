@@ -12,11 +12,9 @@ namespace Phys {
 		float friction = 0.5f;
 		float restitution = 0.f;
 
-		Dojo::SoundSet
-			*impactHard = nullptr,
-			*impactSoft = nullptr;
+		optional_ref<Dojo::SoundSet> impactHard, impactSoft;
 
-		Material(const utf::string& name, const Dojo::Table& desc = Dojo::Table::Empty, const Dojo::ResourceGroup* group = nullptr);
+		Material(const utf::string& name, const Dojo::Table& desc = Dojo::Table::Empty, const_optional_ref<Dojo::ResourceGroup> group = {});
 	};
 }
 
