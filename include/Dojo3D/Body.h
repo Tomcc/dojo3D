@@ -98,12 +98,12 @@ namespace Phys {
 			return group;
 		}
 
-		btRigidBody* getBtBody() {
-			return body.get();
+		optional_ref<btRigidBody> getBtBody() {
+			return *body;
 		}
 
-		btRaycastVehicle* getBtVehicle() {
-			return vehicle.get();
+		optional_ref<btRaycastVehicle> getBtVehicle() {
+			return *vehicle;
 		}
 
 		bool isStatic() const {

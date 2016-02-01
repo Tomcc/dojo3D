@@ -5,11 +5,10 @@
 using namespace Phys;
 
 void Wheel::_init() {
-	auto vehicle = parent.getBtVehicle();
-	DEBUG_ASSERT(vehicle, "The parent must have created the Vehicle at this point");
+	auto& vehicle = parent.getBtVehicle().unwrap();
 
-	index = vehicle->getNumWheels();
-	auto& wheel = vehicle->addWheel(
+	index = vehicle.getNumWheels();
+	auto& wheel = vehicle.addWheel(
 		asBtVector(connectionPoint),
 		asBtVector(direction),
 		asBtVector(axle),
@@ -32,4 +31,32 @@ void Wheel::_init() {
 	wheel.m_wheelsDampingCompression = suspensionCompression;
 	wheel.m_frictionSlip = wheelFriction;
 	wheel.m_rollInfluence = rollInfluence;
+}
+
+Phys::Wheel::Wheel(Body& parent, const Vector& connectionPoint, const Vector& direction, const Vector& axle, float radius, float suspensionRestLength, const btRaycastVehicle::btVehicleTuning& suspensionTuning) : parent(parent)
+, connectionPoint(connectionPoint)
+, direction(direction)
+, axle(axle)
+, radius(radius)
+, suspensionRestLength(suspensionRestLength)
+, suspensionTuning(suspensionTuning)
+, steeringAngle(0)
+{
+	DEBUG_ASSERT(direction != Vector::Zero, "Invalid direction");
+	DEBUG_ASSERT(radius > 0, "Invalid radius");
+	DEBUG_ASSERT(suspensionRestLength > 0, "Invalid rest length");
+}
+
+void Phys::Wheel::_update() {
+	auto& info = parent.getBtVehicle().unwrap().getWheelInfo(index);
+
+	info.m_steering = steeringAngle;
+	info.m_brake = braking;
+	info.m_engineForce = engineForce;
+
+	if (auto child = childObject.cast()) {
+		auto& trans = info.m_worldTransform;
+		child.get().position = asVector(trans.getOrigin());
+		child.get().setRotation(asQuaternion(trans.getRotation()));
+	}
 }

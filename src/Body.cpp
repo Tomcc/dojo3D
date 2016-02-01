@@ -152,7 +152,7 @@ void Body::onAttach() {
 			vehicleRaycaster = make_unique<btDefaultVehicleRaycaster>(&world.getBtWorld());
 
 			btRaycastVehicle::btVehicleTuning tuning; //TODO what's this even used for, each wheel has it already
-			vehicle = make_unique<btRaycastVehicle>(tuning, getBtBody(), vehicleRaycaster.get());
+			vehicle = make_unique<btRaycastVehicle>(tuning, &getBtBody().unwrap(), vehicleRaycaster.get());
 			world.getBtWorld().addVehicle(vehicle.get());
 
 			vehicle->setCoordinateSystem(0, 1, 2);
@@ -173,14 +173,8 @@ void Body::_postSimulation() {
 	object.position = asVector(worldTrans.getOrigin());
 	object.setRotation(asQuaternion(worldTrans.getRotation()));
 
-	for(auto i : range(wheels.size())) {
-		vehicle->updateWheelTransform(i, true);
-		auto& wheel = wheels[i];
-		if (wheel->childObject) {
-			auto& trans = vehicle->getWheelInfo(i).m_worldTransform;
-			wheel->childObject->position = asVector(trans.getOrigin());
-			wheel->childObject->setRotation(asQuaternion(trans.getRotation()));
-		}
+	for(auto&& wheel : wheels) {
+		wheel->_update();
 	}
 }
 

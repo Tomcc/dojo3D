@@ -1,17 +1,21 @@
 #pragma once
 
+#include "dojo/Radians.h"
+
 namespace Phys {
 	class Body;
 
 	class Wheel {
+	public:
 		Body& parent;
 
 		const Vector connectionPoint, direction, axle;
 		const float radius, suspensionRestLength;
 		const btRaycastVehicle::btVehicleTuning suspensionTuning;
 
-	public:
-		Dojo::Object* childObject = nullptr;
+		optional_ref<Dojo::Object> childObject;
+		float engineForce = 0.f, braking = 0.f;
+		Dojo::Degrees steeringAngle;
 
 		Wheel(
 			Body& parent,
@@ -20,20 +24,12 @@ namespace Phys {
 			const Vector& axle,
 			float radius,
 			float suspensionRestLength,
-			const btRaycastVehicle::btVehicleTuning& suspensionTuning) 
-		: parent(parent)
-		, connectionPoint(connectionPoint)
-		, direction(direction)
-		, axle(axle)
-		, radius(radius)
-		, suspensionRestLength(suspensionRestLength)
-		, suspensionTuning(suspensionTuning) {
-			DEBUG_ASSERT(direction != Vector::Zero, "Invalid direction");
-			DEBUG_ASSERT(radius > 0, "Invalid radius");
-			DEBUG_ASSERT(suspensionRestLength > 0, "Invalid rest length");
-		}
+			const btRaycastVehicle::btVehicleTuning& suspensionTuning);
 
 		void _init();
+
+		void _update();
+
 	protected:
 		int index = -1;
 	};
