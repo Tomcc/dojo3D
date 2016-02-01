@@ -121,3 +121,30 @@ void World::sync() const {
 void World::registerBody(Body& body) {
 	bodies.emplace(&body);
 }
+
+std::future<RayResult> Phys::World::raycast(const Vector& start, const Vector& end, Phys::Group rayBelongsToGroup /*= 0*/) const {
+	auto promise = make_shared<std::promise<RayResult>>();
+
+	auto future = promise->get_future();
+	asyncCommand([this, start, end, promise] {
+		auto result = RayResult{};
+
+		btCollisionWorld::ClosestRayResultCallback rayCallback(asBtVector(start), asBtVector(end));
+
+		world->rayTest(rayCallback.m_rayFromWorld, rayCallback.m_rayToWorld, rayCallback);
+		result.hit = rayCallback.hasHit();
+		if (result.hit) {
+			result.position = asVector(rayCallback.m_hitPointWorld);
+			result.normal = asVector(rayCallback.m_hitNormalWorld);
+			result.hitBody = *(Body*)rayCallback.m_collisionObject->getUserPointer();
+		}
+		else {
+			result.position = end;
+			result.normal = (end - start).normalized();
+		}
+
+		promise->set_value(result);
+	});
+
+	return future;
+}

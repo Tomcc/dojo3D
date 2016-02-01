@@ -142,6 +142,7 @@ void Body::onAttach() {
 		desc.m_restitution = material.restitution;
 
 		body = make_unique<btRigidBody>(desc);
+		body->setUserPointer(&self);
 
 		//TODO group & mask
 		world.getBtWorld().addRigidBody(body.get());

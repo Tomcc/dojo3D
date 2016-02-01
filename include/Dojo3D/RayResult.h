@@ -11,21 +11,9 @@ namespace Phys {
 		bool hit = false;
 		Vector position;
 		Vector normal;
-		//btRigidBody* hitRigidBody = nullptr;
+		optional_ref<Body> hitBody;
 		Group group = 0;
-		float dist;
-
-		explicit RayResult(const World& world) :
-			world(&world) {
-
-		}
-
-		Body* getHitBody() const;
-
-		const Material* getHitMaterial() const;
-
-	protected:
-		const World* world;
+		float dist = FLT_MAX;
 	};
 }
 

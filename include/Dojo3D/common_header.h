@@ -4,6 +4,7 @@
 
 #include <unordered_set>
 #include <mutex>
+#include <future>
 
 #pragma warning(push)
 #pragma warning(disable: 4127) // possible loss of data
