@@ -33,30 +33,47 @@ void Wheel::_init() {
 	wheel.m_rollInfluence = rollInfluence;
 }
 
-Phys::Wheel::Wheel(Body& parent, const Vector& connectionPoint, const Vector& direction, const Vector& axle, float radius, float suspensionRestLength, const btRaycastVehicle::btVehicleTuning& suspensionTuning) : parent(parent)
+Wheel::Wheel(Body& parent, const Vector& connectionPoint, const Vector& direction, const Vector& axle, float radius, float suspensionRestLength, const btRaycastVehicle::btVehicleTuning& suspensionTuning) : parent(parent)
 , connectionPoint(connectionPoint)
 , direction(direction)
 , axle(axle)
 , radius(radius)
 , suspensionRestLength(suspensionRestLength)
 , suspensionTuning(suspensionTuning)
-, steeringAngle(0)
 {
 	DEBUG_ASSERT(direction != Vector::Zero, "Invalid direction");
 	DEBUG_ASSERT(radius > 0, "Invalid radius");
 	DEBUG_ASSERT(suspensionRestLength > 0, "Invalid rest length");
 }
 
-void Phys::Wheel::_update() {
-	auto& info = parent.getBtVehicle().unwrap().getWheelInfo(index);
+void Wheel::setSteering(Dojo::Radians angle) {
+	parent.wakeUp();
+	getInfo().unwrap().m_steering = angle;
+}
 
-	info.m_steering = steeringAngle;
-	info.m_brake = braking;
-	info.m_engineForce = engineForce;
+void Wheel::setBrake(float brake) {
+	parent.wakeUp();
+	getInfo().unwrap().m_brake = brake;
+}
+
+void Wheel::setEngineForce(float engineForce) {
+	parent.wakeUp();
+	getInfo().unwrap().m_engineForce = engineForce;
+}
+
+void Wheel::_update() {
+	auto& info = parent.getBtVehicle().unwrap().getWheelInfo(index);
 
 	if (auto child = childObject.cast()) {
 		auto& trans = info.m_worldTransform;
 		child.get().position = asVector(trans.getOrigin());
 		child.get().setRotation(asQuaternion(trans.getRotation()));
 	}
+}
+
+optional_ref<btWheelInfo> Wheel::getInfo() {
+	if (index > 0) {
+		return parent.getBtVehicle().unwrap().getWheelInfo(index);
+	}
+	return{};
 }

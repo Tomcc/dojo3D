@@ -14,8 +14,7 @@ namespace Phys {
 		const btRaycastVehicle::btVehicleTuning suspensionTuning;
 
 		optional_ref<Dojo::Object> childObject;
-		float engineForce = 0.f, braking = 0.f;
-		Dojo::Degrees steeringAngle;
+		float engineForce = 0.f;
 
 		Wheel(
 			Body& parent,
@@ -28,10 +27,17 @@ namespace Phys {
 
 		void _init();
 
+		void setSteering(Dojo::Radians angle);
+
+		void setBrake(float brake);
+
+		void setEngineForce(float engineForce);
+
 		void _update();
 
 	protected:
 		int index = -1;
+		optional_ref<btWheelInfo> getInfo();
 	};
 
 }

@@ -117,6 +117,9 @@ BodyPart& Phys::Body::addAndCenterHeightmap(Shared<std::vector<float>> heightmap
 	return shape;
 }
 
+void Body::wakeUp() {
+	getBtBody().unwrap().setActivationState(ACTIVE_TAG);
+}
 
 void Body::onAttach() {
 	DEBUG_ASSERT(parts.size() > 0, "At least one shape is needed to add a physics body");

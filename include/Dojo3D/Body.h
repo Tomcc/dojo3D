@@ -137,6 +137,8 @@ namespace Phys {
 
 		virtual void onAttach() override;
 
+		void wakeUp();
+
 		void _postSimulation();
 
 	protected:
