@@ -77,7 +77,7 @@ BodyPart& Body::addSphereShape(float radius, const Vector& center) {
 	);
 }
 
-BodyPart& Phys::Body::addHeightmap(Shared<std::vector<float>> heightmap, size_t w, size_t h, const Vector& center) {
+BodyPart& Phys::Body::addAndCenterHeightmap(Shared<std::vector<float>> heightmap, size_t w, size_t h, const Vector& center) {
 	DEBUG_ASSERT(heightmap, "Must pass valid data");
 	DEBUG_ASSERT(w > 0 && h > 0, "Both dimensions must be bigger than 0");
 	DEBUG_ASSERT(heightmap->size() == w * h, "Data and dimensions don't match");
@@ -85,13 +85,23 @@ BodyPart& Phys::Body::addHeightmap(Shared<std::vector<float>> heightmap, size_t 
 
 	auto minmax = std::minmax_element(heightmap->begin(), heightmap->end());
 
+	//center the points vertically
+	auto bbheight = *minmax.second - *minmax.first;
+	auto min = -bbheight / 2;
+
+	auto diff = *minmax.second - min;
+
+	for (auto& height : *heightmap) {
+		height += diff;
+	}
+
 	auto& shape = _addShape(
 		make_unique<btHeightfieldTerrainShape>(
 			w, h,
 			heightmap->data(),
 			1.f,
-			*minmax.first,
-			*minmax.second,
+			min,
+			-min,
 			1,
 			PHY_FLOAT,
 			false
