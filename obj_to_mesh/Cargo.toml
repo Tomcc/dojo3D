@@ -8,3 +8,4 @@ git = "https://github.com/PistonDevelopers/wavefront_obj.git"
 
 [dependencies]
 byteorder = "0.4.2"
+clap = "2.0.2"

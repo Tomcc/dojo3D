@@ -1,6 +1,8 @@
 extern crate wavefront_obj;
 extern crate byteorder;
+extern crate clap;
 
+use clap::{Arg, App, SubCommand};
 use byteorder::{LittleEndian, WriteBytesExt};
 use std::io::prelude::*;
 use std::fs::File;
@@ -8,6 +10,7 @@ use wavefront_obj::obj::{ObjSet, Object, Shape, VTNIndex, Vertex, TVertex};
 use std::mem::size_of;
 use std::collections::HashMap;
 use std::f64;
+use std::path::Path;
 
 #[derive(Clone, Copy)]
 enum Attribute {
@@ -272,8 +275,37 @@ fn convert_obj_set(set: ObjSet) -> Vec<Vec<u8>> {
 }
 
 fn main() {
+	let matches = App::new("Obj to mesh converter")
+		.version("1.0")
+		.about("Still pretty incomplete")
+		.arg(Arg::with_name("input")
+			.help("The obj file to convert")
+			.value_name("OBJ_FILE")
+			.takes_value(true)
+			.required(true))
+		.arg(Arg::with_name("output")
+			.long("output")
+			.short("o")
+			.takes_value(true)
+			.value_name("MESH_FILE")
+			.help("Sets the output file. Defaults to OBJ_FILE.mesh"))
+		.get_matches();
 
-	let mut file = File::open("C:/Users/tommaso/DEV/vr150/VisualStudio/bin/data/tire.obj").unwrap();
+	let input = Path::new(matches.value_of("input").unwrap());
+	
+	let output = if let Some(path) = matches.value_of("output") {
+		Path::new(path).to_owned()
+	}
+	else {
+		input.with_extension("mesh")
+	};
+
+	println!("Converting {} into {}", 
+		input.file_name().unwrap().to_str().unwrap(),
+		output.file_name().unwrap().to_str().unwrap()
+	);
+
+	let mut file = File::open(input).unwrap();
 
 	let mut content = String::new();
 	file.read_to_string(&mut content).unwrap();
@@ -283,7 +315,7 @@ fn main() {
 	    Err(err) => panic!("{:?}", err),
 	};
 
-	let mut file = File::create("C:/Users/tommaso/DEV/vr150/VisualStudio/bin/data/tire.mesh").unwrap();
+	let mut file = File::create(output).unwrap();
 
 	file.write_all(&data[0]);
 }
