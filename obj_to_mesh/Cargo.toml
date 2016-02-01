@@ -5,3 +5,6 @@ authors = ["Tommaso Checchi <tommaso.checchi1@gmail.com>"]
 
 [dependencies.wavefront_obj]
 git = "https://github.com/PistonDevelopers/wavefront_obj.git"
+
+[dependencies]
+byteorder = "0.4.2"
