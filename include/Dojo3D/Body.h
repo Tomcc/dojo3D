@@ -46,6 +46,7 @@ namespace Phys {
 		BodyPart& addBoxShape(const Vector& dimensions, const Vector& center = Vector::Zero, const Quaternion& rotation = {});
 		BodyPart& addConvexHullShape(const std::vector<Vector>& points, const Vector& center = Vector::Zero, const Quaternion& rotation = {});
 		BodyPart& addSphereShape(float radius, const Vector& center = Vector::Zero);
+		BodyPart& addHeightmap(Shared<std::vector<float>> heightmap, size_t w, size_t h, const Vector& center = Vector::Zero);
 
 		Wheel& addWheel(
 			const Vector& connectionPoint,

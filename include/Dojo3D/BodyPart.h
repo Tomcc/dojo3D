@@ -14,9 +14,14 @@ namespace Phys {
 			return *shape;
 		}
 
+		void assignTerrainData(Shared<std::vector<float>> data) {
+			terrainData = data;
+		}
+
 	protected:
 		Body& parent;
 		Unique<btCollisionShape> shape;
+		Shared<std::vector<float>> terrainData;
 	private:
 	};
 }

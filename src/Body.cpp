@@ -6,6 +6,8 @@
 #include "Material.h"
 #include "Wheel.h"
 
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+
 using namespace Phys;
 
 Body::Body(Dojo::Object& object, World& world, const Material& material, Group group, BodyType type /*= false*/) :
@@ -73,6 +75,36 @@ BodyPart& Body::addSphereShape(float radius, const Vector& center) {
 		center,
 		{}
 	);
+}
+
+BodyPart& Phys::Body::addHeightmap(Shared<std::vector<float>> heightmap, size_t w, size_t h, const Vector& center) {
+	DEBUG_ASSERT(heightmap, "Must pass valid data");
+	DEBUG_ASSERT(w > 0 && h > 0, "Both dimensions must be bigger than 0");
+	DEBUG_ASSERT(heightmap->size() == w * h, "Data and dimensions don't match");
+	DEBUG_ASSERT(isStatic(), "The body must be static to have an heightmap");
+
+	auto minmax = std::minmax_element(heightmap->begin(), heightmap->end());
+
+	auto& shape = _addShape(
+		make_unique<btHeightfieldTerrainShape>(
+			w, h,
+			heightmap->data(),
+			1.f,
+			*minmax.first,
+			*minmax.second,
+			1,
+			PHY_FLOAT,
+			false
+			), 
+		0,
+		Vector::Zero, 
+		Quaternion{}
+	);
+
+	//data must be managed as long as the btHeightfieldTerrainShape exists
+	shape.assignTerrainData(std::move(heightmap));
+
+	return shape;
 }
 
 

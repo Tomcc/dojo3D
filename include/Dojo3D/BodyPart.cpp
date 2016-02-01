@@ -9,5 +9,5 @@ parent(parent),
 shape(std::move(shapeDesc)),
 volume(volume) {
 	DEBUG_ASSERT(shape, "Invalid shape");
-	DEBUG_ASSERT(volume > 0, "Invalid volume");
+	DEBUG_ASSERT(volume >= 0, "Invalid volume");
 }
