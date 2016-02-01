@@ -1,0 +1,7 @@
+[package]
+name = "obj_to_mesh"
+version = "0.1.0"
+authors = ["Tommaso Checchi <tommaso.checchi1@gmail.com>"]
+
+[dependencies.wavefront_obj]
+git = "https://github.com/PistonDevelopers/wavefront_obj.git"
