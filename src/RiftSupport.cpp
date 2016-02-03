@@ -1,6 +1,7 @@
 #include "RiftSupport.h"
 
 using namespace VR;
+using namespace Dojo;
 
 Unique<RiftSupport> VR::RiftSupport::initRiftSupport() {
 	ovrResult result = ovr_Initialize(nullptr);
@@ -24,6 +25,9 @@ VR::RiftSupport::RiftSupport(ovrSession session, ovrGraphicsLuid luid)
 , GPULuid(luid) {
 	DEBUG_ASSERT(session, "Invalid Session");
 
+	//register itself to handle frame swaps
+	Platform::singleton().getRenderer().setFrameSubmitter(self);
+
 	desc = ovr_GetHmdDesc(session);
 	resolution = desc.Resolution;
 }
@@ -31,4 +35,9 @@ VR::RiftSupport::RiftSupport(ovrSession session, ovrGraphicsLuid luid)
 VR::RiftSupport::~RiftSupport() {
 	ovr_Destroy(session);
 	ovr_Shutdown();
+}
+
+void VR::RiftSupport::submitFrame() {
+	//ovr_SubmitFrame(session, frameIndex, )
+	DEBUG_TODO;
 }
