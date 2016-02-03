@@ -28,12 +28,12 @@
     <ClInclude Include="..\src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\Dojo3D\BodyPart.cpp" />
-    <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp" />
-    <ClCompile Include="..\include\Dojo3D\Wheel.cpp" />
     <ClCompile Include="..\src\Body.cpp" />
+    <ClCompile Include="..\src\BodyPart.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
+    <ClCompile Include="..\src\PhysUtil.cpp" />
     <ClCompile Include="..\src\RayResult.cpp" />
+    <ClCompile Include="..\src\Wheel.cpp" />
     <ClCompile Include="..\src\World.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

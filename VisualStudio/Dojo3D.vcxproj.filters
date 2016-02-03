@@ -5,22 +5,24 @@
     <ClCompile Include="..\src\Body.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\RayResult.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\World.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\Dojo3D\PhysUtil.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\Dojo3D\BodyPart.cpp">
+    <ClCompile Include="..\src\BodyPart.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Material.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\Dojo3D\Wheel.cpp">
+    <ClCompile Include="..\src\PhysUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RayResult.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Wheel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\World.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
