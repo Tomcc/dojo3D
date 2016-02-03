@@ -17,6 +17,7 @@
     <ClCompile Include="..\src\RayResult.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\RiftSupport.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Wheel.cpp">
@@ -56,6 +57,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Dojo3D\Wheel.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Dojo3D\RiftSupport.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

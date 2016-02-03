@@ -13,3 +13,4 @@ obj_to_mesh/Cargo.lock
 obj_to_mesh/target/*
 OculusSDK/LibOVR/Obj/*
 OculusSDK/LibOVRKernel/Obj/*
+OculusSDK/LibOVRKernel/Src/Util/Shaders/Blt_*s.h

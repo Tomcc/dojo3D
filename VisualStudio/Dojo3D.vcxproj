@@ -22,6 +22,7 @@
     <ClInclude Include="..\include\Dojo3D\Material.h" />
     <ClInclude Include="..\include\Dojo3D\PhysUtil.h" />
     <ClInclude Include="..\include\Dojo3D\RayResult.h" />
+    <ClInclude Include="..\include\Dojo3D\RiftSupport.h" />
     <ClInclude Include="..\include\Dojo3D\Wheel.h" />
     <ClInclude Include="..\include\Dojo3D\World.h" />
     <ClInclude Include="..\include\Dojo3D\WorldListener.h" />
@@ -33,6 +34,7 @@
     <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\src\PhysUtil.cpp" />
     <ClCompile Include="..\src\RayResult.cpp" />
+    <ClCompile Include="..\src\RiftSupport.cpp" />
     <ClCompile Include="..\src\Wheel.cpp" />
     <ClCompile Include="..\src\World.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -101,7 +103,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../dojo/dependencies/include;..\bulletphysics\src;../dojo/include;../include/Dojo3D;../src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../dojo/dependencies/include;..\bulletphysics\src;../dojo/include;../include/Dojo3D;../src;..\OculusSDK\LibOVR\Include;..\OculusSDK\LibOVRKernel\Include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -120,8 +122,8 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Dojo.lib;LinearMath_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dojo.lib;LibOVR.lib;LibOVRKernel.lib;LinearMath_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);..\OculusSDK\LibOVR\Lib\Windows\Win32\$(Configuration)\VS2015;..\OculusSDK\LibOVRKernel\Lib\Windows\Win32\$(Configuration)\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>
@@ -133,7 +135,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../dojo/dependencies/include;..\bulletphysics\src;../dojo/include;../include/Dojo3D;../src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../dojo/dependencies/include;..\bulletphysics\src;../dojo/include;../include/Dojo3D;../src;..\OculusSDK\LibOVR\Include;..\OculusSDK\LibOVRKernel\Include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -162,8 +164,8 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Dojo.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dojo.lib;LibOVR.lib;LibOVRKernel.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);..\OculusSDK\LibOVR\Lib\Windows\Win32\$(Configuration)\VS2015;..\OculusSDK\LibOVRKernel\Lib\Windows\Win32\$(Configuration)\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>
@@ -175,7 +177,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../dojo/dependencies/include;..\bulletphysics\src;../dojo/include;../include/Dojo3D;../src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../dojo/dependencies/include;..\bulletphysics\src;../dojo/include;../include/Dojo3D;../src;..\OculusSDK\LibOVR\Include;..\OculusSDK\LibOVRKernel\Include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;PUBLISH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -203,8 +205,8 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>Dojo.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Dojo.lib;LibOVR.lib;LibOVRKernel.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);..\OculusSDK\LibOVR\Lib\Windows\Win32\$(Configuration)\VS2015;..\OculusSDK\LibOVRKernel\Lib\Windows\Win32\$(Configuration)\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>
