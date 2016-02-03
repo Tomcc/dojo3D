@@ -11,3 +11,5 @@ lib/
 *.vcxproj.user
 obj_to_mesh/Cargo.lock
 obj_to_mesh/target/*
+OculusSDK/LibOVR/Obj/*
+OculusSDK/LibOVRKernel/Obj/*
