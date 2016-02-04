@@ -192,7 +192,7 @@
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <StringPooling>true</StringPooling>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
@@ -206,7 +206,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>Dojo.lib;LibOVR.lib;LibOVRKernel.lib;LinearMath.lib;BulletCollision.lib;BulletDynamics.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/$(Configuration);..\OculusSDK\LibOVR\Lib\Windows\Win32\$(Configuration)\VS2015;..\OculusSDK\LibOVRKernel\Lib\Windows\Win32\$(Configuration)\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../dojo/lib/$(Configuration);../lib/$(Configuration);../bulletphysics/lib/Release;..\OculusSDK\LibOVR\Lib\Windows\Win32\Release\VS2015;..\OculusSDK\LibOVRKernel\Lib\Windows\Win32\Release\VS2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Verbose>
       </Verbose>
     </Lib>
