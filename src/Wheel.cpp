@@ -47,18 +47,24 @@ Wheel::Wheel(Body& parent, const Vector& connectionPoint, const Vector& directio
 }
 
 void Wheel::setSteering(Dojo::Radians angle) {
-	parent.wakeUp();
-	getInfo().unwrap().m_steering = angle;
+	if (mHasSteering) {
+		parent.wakeUp();
+		getInfo().unwrap().m_steering = angle;
+	}
 }
 
 void Wheel::setBrake(float brake) {
-	parent.wakeUp();
-	getInfo().unwrap().m_brake = brake;
+	if (mHasBrakes) {
+		parent.wakeUp();
+		getInfo().unwrap().m_brake = brake;
+	}
 }
 
 void Wheel::setEngineForce(float engineForce) {
-	parent.wakeUp();
-	getInfo().unwrap().m_engineForce = engineForce;
+	if (mHasEngine) {
+		parent.wakeUp();
+		getInfo().unwrap().m_engineForce = engineForce;
+	}
 }
 
 void Wheel::_update() {
@@ -72,7 +78,7 @@ void Wheel::_update() {
 }
 
 optional_ref<btWheelInfo> Wheel::getInfo() {
-	if (index > 0) {
+	if (index >= 0) {
 		return parent.getBtVehicle().unwrap().getWheelInfo(index);
 	}
 	return{};

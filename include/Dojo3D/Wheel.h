@@ -33,10 +33,33 @@ namespace Phys {
 
 		void setEngineForce(float engineForce);
 
+		void setHasEngine(bool enable) {
+			if (!enable) {
+				setEngineForce(0);
+			}
+			mHasEngine = enable;
+		}
+
+		void setHasBrakes(bool enable) {
+			if (!enable) {
+				setBrake(0);
+			}
+			mHasBrakes = enable;
+		}
+
+		void setHasSteering(bool enable) {
+			if (!enable) {
+				setSteering(Dojo::Radians(0));
+			}
+			mHasSteering = enable;
+		}
+
 		void _update();
 
 	protected:
 		int index = -1;
+		bool mHasEngine = false, mHasBrakes = false, mHasSteering = false;
+
 		optional_ref<btWheelInfo> getInfo();
 	};
 
