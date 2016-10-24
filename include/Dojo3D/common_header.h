@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Dojo.h>
+#include <dojo.h>
 
 #include <unordered_set>
 #include <mutex>

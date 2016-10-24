@@ -1,5 +1,6 @@
 #include "RiftSupport.h"
 
+#ifdef ENABLE_OVR
 using namespace VR;
 using namespace Dojo;
 
@@ -41,3 +42,4 @@ void VR::RiftSupport::submitFrame() {
 	//ovr_SubmitFrame(session, frameIndex, )
 	DEBUG_TODO;
 }
+#endif

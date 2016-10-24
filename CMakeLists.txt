@@ -28,6 +28,7 @@ include_directories("bulletphysics/src")
 
 if(WIN32)
     include_directories("OculusSDK/LibOVR/Include")
+    add_definitions("-DENABLE_OVR")
 endif()
 
 set(COMPILE_DEFINITIONS_RELEASE "${COMPILE_DEFINITIONS_RELEASE} -DPUBLISH")

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef ENABLE_OVR
 
 #include <OVR_CAPI.h>
 #include "dojo\FrameSubmitter.h"
@@ -24,3 +25,4 @@ namespace VR {
 	};
 }
 
+#endif

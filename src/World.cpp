@@ -106,7 +106,7 @@ void World::asyncCallback(const Command& callback) const {
 
 void World::sync() const {
 	if (!isWorkerThread()) {
-		std::atomic<bool> done = false;
+		std::atomic<bool> done(false);
 		asyncCommand([&] {
 			done = true;
 		});
