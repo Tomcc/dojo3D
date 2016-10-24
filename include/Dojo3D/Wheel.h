@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common_header.h"
+
 #include "dojo/Radians.h"
 
 namespace Phys {

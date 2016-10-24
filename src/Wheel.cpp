@@ -70,7 +70,7 @@ void Wheel::setEngineForce(float engineForce) {
 void Wheel::_update() {
 	auto& info = parent.getBtVehicle().unwrap().getWheelInfo(index);
 
-	if (auto child = childObject.cast()) {
+	if (auto child = childObject.to_ref()) {
 		auto& trans = info.m_worldTransform;
 		child.get().position = asVector(trans.getOrigin());
 		child.get().setRotation(asQuaternion(trans.getRotation()));

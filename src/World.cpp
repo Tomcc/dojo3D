@@ -34,10 +34,10 @@ timeStep( makeTimeStep(stepsPerSecond) ) {
 	world->setGravity(asBtVector(gravity));
 
 	//inter-thread communication
-	commands = make_unique<Dojo::Pipe<Job>>();
-	callbacks = make_unique<Dojo::Pipe<Command>>();
-	deferredCollisions = make_unique<Dojo::Pipe<DeferredCollision>>();
-	deferredSensorCollisions = make_unique<Dojo::Pipe<DeferredSensorCollision>>();
+	commands = make_unique<Dojo::SPSCQueue<Job>>();
+	callbacks = make_unique<Dojo::SPSCQueue<Command>>();
+	deferredCollisions = make_unique<Dojo::SPSCQueue<DeferredCollision>>();
+	deferredSensorCollisions = make_unique<Dojo::SPSCQueue<DeferredSensorCollision>>();
 
 	thread = std::thread([=]() {
 		Dojo::Timer timer;

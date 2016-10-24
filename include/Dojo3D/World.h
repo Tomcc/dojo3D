@@ -122,10 +122,10 @@ namespace Phys {
 		Unique<btConstraintSolver> solver;
 		Unique<btDynamicsWorld> world;
 
-		Unique<Dojo::Pipe<Job>> commands;
-		Unique<Dojo::Pipe<Command>> callbacks;
-		Unique<Dojo::Pipe<DeferredCollision>> deferredCollisions;
-		Unique<Dojo::Pipe<DeferredSensorCollision>> deferredSensorCollisions;
+		Unique<Dojo::SPSCQueue<Job>> commands;
+		Unique<Dojo::SPSCQueue<Command>> callbacks;
+		Unique<Dojo::SPSCQueue<DeferredCollision>> deferredCollisions;
+		Unique<Dojo::SPSCQueue<DeferredSensorCollision>> deferredSensorCollisions;
 
 		Dojo::SmallSet<Body*> bodies, deletedBodies;
 

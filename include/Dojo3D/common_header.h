@@ -26,4 +26,7 @@ namespace Phys {
 	using Radians = Dojo::Radians;
 
 	typedef std::lock_guard<std::mutex> ScopedLock;
+
+	template<typename T>
+	using optional_ref = Dojo::optional_ref<T>;
 }
